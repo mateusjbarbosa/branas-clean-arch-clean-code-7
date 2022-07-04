@@ -1,11 +1,11 @@
 import { calculateRide } from "../src/calculateRide"
 
-test("Deve retornar -1 se a distanceancia for um valor invalido", function () {
+test("Deve retornar erro se a distancia for um valor invalido", function () {
   const segments = [{ distance: -3, date: new Date("2021-03-01T10:00:00") }]
   expect(() => calculateRide(segments)).toThrowError(new Error("Invalid distance"))
 })
 
-test("Deve retornar -2 se a data for um valor invalido", function () {
+test("Deve retornar erro se a data for um valor invalido", function () {
   const segments = [{ distance: 10, date: new Date("aaa") }]
   expect(() => calculateRide(segments)).toThrowError(new Error("Invalid date"))
 })
