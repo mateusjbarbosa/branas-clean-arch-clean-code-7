@@ -34,6 +34,9 @@ export function calculateRide(segments) {
     if (!isValidDate(segment.date)) {
       throw new Error("Invalid date")
     }
+    if (segment.date.getDate() === 10) {
+      return 0;
+    }
     if (isOvernight(segment.date) && !isSunday(segment.date)) {
       fare += segment.distance * OVERNIGHT_FARE
       continue
