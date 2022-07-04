@@ -1,11 +1,11 @@
-import FareCalculatorFactory from "./FareCalculatorFactory";
+import FareCalculator from "./FareCalculator";
 import Segment from "./Segment";
 
 export default class Ride {
   segments: Segment[] = []
   MINIMAL_FARE = 10
 
-  constructor() { }
+  constructor(readonly fareCalculator: FareCalculator) { }
 
   addSegment(distance: number, date: Date) {
     this.segments.push(new Segment(distance, date))
@@ -14,8 +14,7 @@ export default class Ride {
   finish() {
     let fare = 0
     for (const segment of this.segments) {
-      const fareCalculator = FareCalculatorFactory.create(segment)
-      fare += fareCalculator.calculate(segment)
+      fare += this.fareCalculator.calculate(segment)
     }
     return (fare < this.MINIMAL_FARE) ? this.MINIMAL_FARE : fare
   }
