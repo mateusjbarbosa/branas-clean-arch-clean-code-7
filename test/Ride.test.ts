@@ -2,6 +2,7 @@ import NormalFareCalculator from "../src/NormalFareCalculator"
 import OvernightFareCalculator from "../src/OvernightFareCalculator"
 import OvernightSundayFareCalculator from "../src/OvernightSundayFareCalculator"
 import Ride from "../src/Ride"
+import SpecialDayFareCalculator from "../src/SpecialDayFareCalculator"
 import SundayFareCalculator from "../src/SundayFareCalculator"
 
 let ride: Ride
@@ -11,7 +12,8 @@ beforeEach(function () {
   const sundayFareCalculator = new SundayFareCalculator(normalFareCalculator)
   const overnightFareCalculator = new OvernightFareCalculator(sundayFareCalculator)
   const overnightSundayFareCalculator = new OvernightSundayFareCalculator(overnightFareCalculator)
-  ride = new Ride(overnightSundayFareCalculator)
+  const specialDayFareCalculator = new SpecialDayFareCalculator(overnightSundayFareCalculator)
+  ride = new Ride(specialDayFareCalculator)
 })
 
 test("Deve retornar erro se a distancia for um valor invalido", function () {
@@ -50,4 +52,10 @@ test("Deve calcular o valor da corrida com a tarifa mínima", function () {
   ride.addSegment(1, new Date("2021-03-01T10:00:00"))
   const fare = ride.finish()
   expect(fare).toBe(10)
+})
+
+test("Deve calcular o valor da corrida no dia 10 de cada mês", function () {
+  ride.addSegment(10, new Date("2021-03-10T10:00:00"))
+  const fare = ride.finish()
+  expect(fare).toBe(15)
 })
